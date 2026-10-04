@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phiếu Học Tập: Bài 3 - Thông Tin Trong Máy Tính</title>
+  <style>
+    :root {
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --accent: #f59e0b;
+      --bg: #f0fdfa;
+      --card-bg: #ffffff;
+      --border: #cbd5e1;
+      --text: #1e293b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 16px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2px dashed var(--primary);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      color: var(--primary-dark);
+      margin: 0 0 6px 0;
+      font-size: 24px;
+    }
+    .header p { margin: 2px 0; color: #64748b; font-weight: 500; }
+    .student-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .student-info div { flex: 1; min-width: 200px; }
+    .student-info input {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #94a3b8;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .card {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 22px;
+      background: #ffffff;
+    }
+    .card h3 {
+      margin-top: 0;
+      color: var(--primary-dark);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 4px solid var(--primary);
+      padding-left: 8px;
+    }
+
+    /* Bảng nhiệm vụ 1 */
+    table.task-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13.5px;
+    }
+    table.task-table th, table.task-table td {
+      border: 1px solid var(--border);
+      padding: 8px 4px;
+      text-align: center;
+    }
+    table.task-table th { background: #f1f5f9; color: #334155; }
+    .radio-group {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 12px;
+      text-align: left;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    input[type="text"].short-input {
+      width: 80px;
+      padding: 5px;
+      text-align: center;
+      border: 1.5px solid #94a3b8;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    /* Nhiệm vụ 2: Pixel */
+    .pixel-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .pixel-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 34px);
+      gap: 2px;
+      background: #334155;
+      padding: 3px;
+      border-radius: 6px;
+    }
+    .pixel {
+      width: 34px;
+      height: 34px;
+      background: #ffffff;
+      cursor: pointer;
+      user-select: none;
+    }
+    .pixel.active { background: #0f172a; }
+
+    /* Nhiệm vụ 3: Nối cột */
+    .matching-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1.8fr;
+      gap: 10px;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 14px;
+    }
+    select.match-select {
+      padding: 6px;
+      border: 1.5px solid #94a3b8;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* Nhiệm vụ 7: Ô chữ */
+    .cw-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .cw-label { width: 75px; font-weight: bold; font-size: 13px; color: #b45309; }
+    .cw-cell {
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      border: 1.5px solid #64748b;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+    .cw-cell.key {
+      background: #059669;
+      color: #ffffff;
+      border: 2px solid #0f172a;
+    }
+
+    .key-box-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin: 12px 0;
+    }
+    .key-cell {
+      width: 36px;
+      height: 40px;
+      border: 2px dashed #0f766e;
+      border-radius: 6px;
+      background: #f0fdfa;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: #0f766e;
+    }
+
+    /* Nút chấm điểm */
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #fff;
+      background: var(--primary);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .feedback {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+      font-weight: bold;
+      text-align: center;
+      font-size: 16px;
+    }
+    .feedback.success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .feedback.warning { background: #fef9c3; color: #a16207; border: 1px solid #fde047; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>PHIẾU HỌC TẬP TƯƠNG TÁC</h1>
+    <p>MÔN: TIN HỌC 6 — BÀI 3: THÔNG TIN TRONG MÁY TÍNH</p>
+    <div class="student-info">
+      <div><input type="text" id="student_name" placeholder="Họ và tên học sinh..."></div>
+      <div><input type="text" id="student_class" placeholder="Lớp: 6/..."></div>
+    </div>
+  </div>
+
+  <!-- NHIỆM VỤ 1 -->
+  <div class="card">
+    <h3>NHIỆM VỤ 1: MÃ HÓA SỐ (Dãy từ 0 đến 15)</h3>
+    <p style="font-size: 13px; color: #475569; margin: 4px 0 10px 0;">
+      Dãy số: <b>0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</b> (Quy ước chia đôi: <b>Trái = 0</b>, <b>Phải = 1</b>)
+    </p>
+    <table class="task-table">
+      <tr>
+        <th style="width: 70px;">Số</th>
+        <th>Lần 1 (16 số)</th>
+        <th>Lần 2 (8 số)</th>
+        <th>Lần 3 (4 số)</th>
+        <th>Lần 4 (2 số)</th>
+        <th style="width: 100px;">Kết quả</th>
+      </tr>
+      <!-- Mẫu 5 -->
+      <tr style="background: #f8fafc;">
+        <td><b>5</b></td>
+        <td>Trái (0)</td><td>Phải (1)</td><td>Trái (0)</td><td>Phải (1)</td>
+        <td><b>0101</b></td>
+      </tr>
+      <!-- Số 12 -->
+      <tr>
+        <td><b>12</b></td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_12_l1" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_12_l1" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_12_l2" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_12_l2" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_12_l3" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_12_l3" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_12_l4" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_12_l4" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td><input type="text" id="nv1_12_res" class="short-input" placeholder="Dãy bit?"></td>
+      </tr>
+      <!-- Tìm số từ dãy lần đi -->
+      <tr>
+        <td><input type="text" id="nv1_q3_num" class="short-input" placeholder="Số?"></td>
+        <td><b>Phải</b></td>
+        <td><b>Trái</b></td>
+        <td><b>Phải</b></td>
+        <td><b>Phải</b></td>
+        <td><input type="text" id="nv1_q3_bit" class="short-input" placeholder="Dãy bit?"></td>
+      </tr>
+      <!-- Tìm số từ dãy bit 1110 -->
+      <tr>
+        <td><input type="text" id="nv1_q4_num" class="short-input" placeholder="Số?"></td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_14_l1" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_14_l1" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_14_l2" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_14_l2" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_14_l3" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_14_l3" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td>
+          <div class="radio-group">
+            <label><input type="radio" name="nv1_14_l4" value="0"> Trái (0)</label>
+            <label><input type="radio" name="nv1_14_l4" value="1"> Phải (1)</label>
+          </div>
+        </td>
+        <td><b>1110</b></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- NHIỆM VỤ 2 -->
+  <div class="card">
+    <h3>NHIỆM VỤ 2: HỌA SĨ PIXEL</h3>
+    <p style="font-size: 13.5px; margin: 4px 0 10px 0;">Em hãy nhấp chuột vào từng ô vuông để tô đen/trắng theo 8 dòng mã sau:</p>
+    <div style="font-size: 13px; background: #f8fafc; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; font-family: monospace;">
+      1: 00010000 | 2: 00011000 | 3: 00011100 | 4: 00011110<br>
+      5: 00010000 | 6: 11111111 | 7: 01111110 | 8: 00111100
+    </div>
+    <div class="pixel-wrap">
+      <div class="pixel-grid" id="pixelGrid"></div>
+      <div style="font-size: 13px; color: #64748b;">(Quy ước: 0 = Ô trắng, 1 = Ô màu đen)</div>
+    </div>
+  </div>
+
+  <!-- NHIỆM VỤ 3 -->
+  <div class="card">
+    <h3>NHIỆM VỤ 3: THỬ TÀI KẾT NỐI (ĐƠN VỊ ĐO THÔNG TIN)</h3>
+    <p style="font-size: 13.5px; margin: 4px 0 10px 0;">Chọn Ký hiệu và Độ lớn xấp xỉ tương ứng cho mỗi đơn vị:</p>
+    
+    <div class="matching-row">
+      <div><b>1. Kilobyte</b></div>
+      <div>
+        <select class="match-select" id="m_kb_sym">
+          <option value="">-- Ký hiệu --</option>
+          <option value="TB">TB</option>
+          <option value="KB">KB</option>
+          <option value="MB">MB</option>
+          <option value="GB">GB</option>
+        </select>
+      </div>
+      <div>
+        <select class="match-select" id="m_kb_val">
+          <option value="">-- Độ lớn xấp xỉ --</option>
+          <option value="1t">Khoảng 1 tỉ byte</option>
+          <option value="1nt">Khoảng 1 nghìn tỉ byte</option>
+          <option value="1ng">Khoảng 1 nghìn byte</option>
+          <option value="1tr">Khoảng 1 triệu byte</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="matching-row">
+      <div><b>2. Megabyte</b></div>
+      <div>
+        <select class="match-select" id="m_mb_sym">
+          <option value="">-- Ký hiệu --</option>
+          <option value="TB">TB</option>
+          <option value="KB">KB</option>
+          <option value="MB">MB</option>
+          <option value="GB">GB</option>
+        </select>
+      </div>
+      <div>
+        <select class="match-select" id="m_mb_val">
+          <option value="">-- Độ lớn xấp xỉ --</option>
+          <option value="1t">Khoảng 1 tỉ byte</option>
+          <option value="1nt">Khoảng 1 nghìn tỉ byte</option>
+          <option value="1ng">Khoảng 1 nghìn byte</option>
+          <option value="1tr">Khoảng 1 triệu byte</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="matching-row">
+      <div><b>3. Gigabyte</b></div>
+      <div>
+        <select class="match-select" id="m_gb_sym">
+          <option value="">-- Ký hiệu --</option>
+          <option value="TB">TB</option>
+          <option value="KB">KB</option>
+          <option value="MB">MB</option>
+          <option value="GB">GB</option>
+        </select>
+      </div>
+      <div>
+        <select class="match-select" id="m_gb_val">
+          <option value="">-- Độ lớn xấp xỉ --</option>
+          <option value="1t">Khoảng 1 tỉ byte</option>
+          <option value="1nt">Khoảng 1 nghìn tỉ byte</option>
+          <option value="1ng">Khoảng 1 nghìn byte</option>
+          <option value="1tr">Khoảng 1 triệu byte</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="matching-row">
+      <div><b>4. Terabyte</b></div>
+      <div>
+        <select class="match-select" id="m_tb_sym">
+          <option value="">-- Ký hiệu --</option>
+          <option value="TB">TB</option>
+          <option value="KB">KB</option>
+          <option value="MB">MB</option>
+          <option value="GB">GB</option>
+        </select>
+      </div>
+      <div>
+        <select class="match-select" id="m_tb_val">
+          <option value="">-- Độ lớn xấp xỉ --</option>
+          <option value="1t">Khoảng 1 tỉ byte</option>
+          <option value="1nt">Khoảng 1 nghìn tỉ byte</option>
+          <option value="1ng">Khoảng 1 nghìn byte</option>
+          <option value="1tr">Khoảng 1 triệu byte</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- NHIỆM VỤ 4 -->
+  <div class="card">
+    <h3>NHIỆM VỤ 4: EM LÀ KỸ THUẬT VIÊN</h3>
+    <div style="background: #e2e8f0; padding: 10px 14px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; display: inline-block;">
+      💽 DATA (D:) — 48.0 GB free of 368 GB
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div>• Tổng dung lượng của ổ đĩa D: <input type="text" id="nv4_total" class="short-input"> <b>GB</b></div>
+      <div>• Dung lượng chưa sử dụng (trống): <input type="text" id="nv4_free" class="short-input"> <b>GB</b></div>
+      <div>• Dung lượng đã sử dụng: <input type="text" id="nv4_used" class="short-input"> <b>GB</b></div>
+    </div>
+  </div>
+
+  <!-- NHIỆM VỤ 6 -->
+  <div class="card">
+    <h3>NHIỆM VỤ 6: NGƯỜI TIÊU DÙNG THÔNG THÁI</h3>
+    <p style="font-size: 13.5px;">
+      Bạn Lan muốn mua một thẻ nhớ cho điện thoại để lưu: <b>100 video</b> (mỗi video 200 MB) và <b>1000 file PDF</b> (mỗi file 2 MB).
+    </p>
+    <div style="margin-bottom: 8px;">
+      Lan nên chọn mua loại thẻ nhớ nào?
+      <select id="nv6_choice" style="padding: 6px; border-radius: 6px; font-weight: bold;">
+        <option value="">-- Chọn thẻ nhớ --</option>
+        <option value="8">8 GB</option>
+        <option value="16">16 GB</option>
+        <option value="32">32 GB</option>
+      </select>
+    </div>
+    <div>
+      <textarea id="nv6_reason" rows="2" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #94a3b8;" placeholder="Giải thích ngắn gọn lý do vì sao..."></textarea>
+    </div>
+  </div>
+
+  <!-- NHIỆM VỤ 7 -->
+  <div class="card">
+    <h3>NHIỆM VỤ 7: MINI GAME — TRÒ CHƠI Ô CHỮ</h3>
+    <p style="font-size: 13px; color: #475569; margin: 4px 0 12px 0;">
+      Điền từng chữ cái vào ô ngang. Ký tự ở <b>ô màu xanh đậm</b> sẽ tạo thành các chữ cái của từ khóa bí mật:
+    </p>
+
+    <!-- Hàng 1: BANG MA (B ở ô 0) -->
+    <div class="cw-row">
+      <div class="cw-label">Hàng 1:</div>
+      <input type="text" maxlength="1" class="cw-cell key" id="cw_1_0">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_1_1">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_1_2">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_1_3">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_1_4">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_1_5">
+      <span style="font-size: 12px; color: #64748b;">(6 chữ cái: Bảng...)</span>
+    </div>
+
+    <!-- Hàng 2: NHI PHAN (A ở ô 5) -->
+    <div class="cw-row">
+      <div class="cw-label">Hàng 2:</div>
+      <input type="text" maxlength="1" class="cw-cell" id="cw_2_0">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_2_1">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_2_2">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_2_3">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_2_4">
+      <input type="text" maxlength="1" class="cw-cell key" id="cw_2_5">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_2_6">
+      <span style="font-size: 12px; color: #64748b;">(7 chữ cái: Nhị...)</span>
+    </div>
+
+    <!-- Hàng 3: BYTE (Y ở ô 1) -->
+    <div class="cw-row">
+      <div class="cw-label">Hàng 3:</div>
+      <input type="text" maxlength="1" class="cw-cell" id="cw_3_0">
+      <input type="text" maxlength="1" class="cw-cell key" id="cw_3_1">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_3_2">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_3_3">
+      <span style="font-size: 12px; color: #64748b;">(4 chữ cái: 8 bit = ...)</span>
+    </div>
+
+    <!-- Hàng 4: TERABYTE (T ở ô 0) -->
+    <div class="cw-row">
+      <div class="cw-label">Hàng 4:</div>
+      <input type="text" maxlength="1" class="cw-cell key" id="cw_4_0">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_1">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_2">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_3">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_4">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_5">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_6">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_4_7">
+      <span style="font-size: 12px; color: #64748b;">(8 chữ cái: TB)</span>
+    </div>
+
+    <!-- Hàng 5: PIXEL (I ở ô 1) -->
+    <div class="cw-row">
+      <div class="cw-label">Hàng 5:</div>
+      <input type="text" maxlength="1" class="cw-cell" id="cw_5_0">
+      <input type="text" maxlength="1" class="cw-cell key" id="cw_5_1">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_5_2">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_5_3">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_5_4">
+      <span style="font-size: 12px; color: #64748b;">(5 chữ cái: Điểm ảnh)</span>
+    </div>
+
+    <!-- Hàng 6: DUNG LUONG (D ở ô 0) -->
+    <div class="cw-row">
+      <div class="cw-label">Hàng 6:</div>
+      <input type="text" maxlength="1" class="cw-cell key" id="cw_6_0">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_1">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_2">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_3">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_4">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_5">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_6">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_7">
+      <input type="text" maxlength="1" class="cw-cell" id="cw_6_8">
+      <span style="font-size: 12px; color: #64748b;">(9 chữ cái)</span>
+    </div>
+
+    <div style="text-align: center; margin-top: 16px;">
+      <div style="font-size: 14px; font-weight: bold; color: var(--primary-dark);">★ TỪ KHÓA BÍ MẬT (GHÉP 6 CHỮ CÁI TỪ Ô XANH) ★</div>
+      <div class="key-box-wrap">
+        <input type="text" maxlength="1" class="key-cell" id="kw_0">
+        <input type="text" maxlength="1" class="key-cell" id="kw_1">
+        <input type="text" maxlength="1" class="key-cell" id="kw_2">
+        <input type="text" maxlength="1" class="key-cell" id="kw_3">
+        <input type="text" maxlength="1" class="key-cell" id="kw_4">
+        <input type="text" maxlength="1" class="key-cell" id="kw_5">
+      </div>
+      <div style="font-size: 12px; color: #64748b; font-style: italic;">
+        (Gợi ý: Dãy gồm các ký hiệu 0 và 1 dùng để biểu diễn mọi thông tin trong máy tính)
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-submit" onclick="submitAssessment()">NỘP BÀI VÀ KIỂM TRA ĐIỂM</button>
+  <div class="feedback" id="feedbackBox"></div>
+</div>
+
+<script>
+  // 1. KHỞI TẠO LƯỚI PIXEL 8x8 (HÌNH THUYỀN BUỒM)
+  const targetPixel = [
+    [0,0,0,1,0,0,0,0],
+    [0,0,0,1,1,0,0,0],
+    [0,0,0,1,1,1,0,0],
+    [0,0,0,1,1,1,1,0],
+    [0,0,0,1,0,0,0,0],
+    [1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,1,0],
+    [0,0,1,1,1,1,0,0]
+  ];
+  let userPixel = Array(8).fill().map(() => Array(8).fill(0));
+  const pixelGrid = document.getElementById('pixelGrid');
+
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'pixel';
+      cell.onclick = () => {
+        userPixel[r][c] = userPixel[r][c] === 1 ? 0 : 1;
+        cell.classList.toggle('active');
+      };
+      pixelGrid.appendChild(cell);
+    }
+  }
+
+  // Tự động nhảy ô khi gõ ô chữ
+  document.querySelectorAll('.cw-cell, .key-cell').forEach((input) => {
+    input.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase();
+      if (e.target.value && e.target.nextElementSibling && e.target.nextElementSibling.classList.contains('cw-cell')) {
+        e.target.nextElementSibling.focus();
+      }
+    });
+  });
+
+  // 2. HÀM CHẤM ĐIỂM TOÀN DIỆN
+  function submitAssessment() {
+    let score = 0;
+    let maxScore = 10;
+    let details = [];
+
+    // Chấm Nhiệm vụ 1: 2.5 điểm
+    let nv1_score = 0;
+    // Số 12: Phải (1), Phải (1), Trái (0), Trái (0) -> 1100
+    const l1 = document.querySelector('input[name="nv1_12_l1"]:checked')?.value;
+    const l2 = document.querySelector('input[name="nv1_12_l2"]:checked')?.value;
+    const l3 = document.querySelector('input[name="nv1_12_l3"]:checked')?.value;
+    const l4 = document.querySelector('input[name="nv1_12_l4"]:checked')?.value;
+    const bit12 = document.getElementById('nv1_12_res').value.trim();
+
+    if (l1 === '1' && l2 === '1' && l3 === '0' && l4 === '0' && bit12 === '1100') {
+      nv1_score += 1.0;
+    }
+    // Dòng tìm số từ: Phải Trái Phải Phải -> 1011 (Số 11)
+    if (document.getElementById('nv1_q3_num').value.trim() === '11') nv1_score += 0.5;
+    if (document.getElementById('nv1_q3_bit').value.trim() === '1011') nv1_score += 0.5;
+
+    // Dòng 1110 (Số 14)
+    if (document.getElementById('nv1_q4_num').value.trim() === '14') nv1_score += 0.5;
+    score += nv1_score;
+
+    // Chấm Nhiệm vụ 2: Pixel (1.5 điểm)
+    let pixelMatch = true;
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        if (userPixel[r][c] !== targetPixel[r][c]) pixelMatch = false;
+      }
+    }
+    if (pixelMatch) score += 1.5;
+
+    // Chấm Nhiệm vụ 3: Nối cột (2.0 điểm)
+    let nv3_score = 0;
+    if (document.getElementById('m_kb_sym').value === 'KB' && document.getElementById('m_kb_val').value === '1ng') nv3_score += 0.5;
+    if (document.getElementById('m_mb_sym').value === 'MB' && document.getElementById('m_mb_val').value === '1tr') nv3_score += 0.5;
+    if (document.getElementById('m_gb_sym').value === 'GB' && document.getElementById('m_gb_val').value === '1t') nv3_score += 0.5;
+    if (document.getElementById('m_tb_sym').value === 'TB' && document.getElementById('m_tb_val').value === '1nt') nv3_score += 0.5;
+    score += nv3_score;
+
+    // Chấm Nhiệm vụ 4: Kỹ thuật viên (1.5 điểm)
+    let nv4_score = 0;
+    if (document.getElementById('nv4_total').value.trim() === '368') nv4_score += 0.5;
+    if (document.getElementById('nv4_free').value.trim() === '48') nv4_score += 0.5;
+    if (document.getElementById('nv4_used').value.trim() === '320') nv4_score += 0.5;
+    score += nv4_score;
+
+    // Chấm Nhiệm vụ 6: Thẻ nhớ (1.0 điểm)
+    if (document.getElementById('nv6_choice').value === '32') score += 1.0;
+
+    // Chấm Nhiệm vụ 7: Ô chữ bí mật (1.5 điểm)
+    const secret = [
+      document.getElementById('kw_0').value,
+      document.getElementById('kw_1').value,
+      document.getElementById('kw_2').value,
+      document.getElementById('kw_3').value,
+      document.getElementById('kw_4').value,
+      document.getElementById('kw_5').value
+    ].join('').toUpperCase();
+
+    if (secret === 'DAYBIT') score += 1.5;
+
+    // Hiển thị kết quả
+    const fb = document.getElementById('feedbackBox');
+    fb.style.display = 'block';
+    if (score >= 8.0) {
+      fb.className = 'feedback success';
+      fb.innerHTML = `🎉 XUẤT SẮC! Điểm của em: ${score.toFixed(1)} / 10 điểm.<br>Em đã nắm rất vững bản chất thông tin và các phép tính trong máy tính!`;
+    } else {
+      fb.className = 'feedback warning';
+      fb.innerHTML = `👍 Kết quả: ${score.toFixed(1)} / 10 điểm.<br>Hãy rà soát lại các ô mã hóa số, hình pixel hoặc từ khóa bí mật nhé!`;
+    }
+    fb.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
